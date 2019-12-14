@@ -20,14 +20,14 @@ export default function RouteWrapper({
 
   return (
     <Route
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...rest}
       render={props => (
         <Layout>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
           <Component {...props} />
         </Layout>
       )}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...rest}
     />
   );
 }
