@@ -1,5 +1,11 @@
 import React from 'react';
 
+import logo from '../../assets/images/logo.svg';
+
 export default function Dashboard() {
-  return <div>SignIn</div>;
+  return (
+    <>
+      <img src={logo} alt="GoBarber" />
+    </>
+  );
 }
