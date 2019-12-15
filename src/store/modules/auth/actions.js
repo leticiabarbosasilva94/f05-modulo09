@@ -1,15 +1,24 @@
-import { EXAMPLE_TYPE_REQUEST, EXAMPLE_TYPE_SUCCESS } from '../types';
+import * as types from '../types';
 
-export function exampleActionRequest(someData) {
+export function signInRequest(email, password) {
+  console.log('REQUESTING', email, password);
   return {
-    type: EXAMPLE_TYPE_REQUEST,
-    exampleData: someData
+    type: types.SIGN_IN_REQUEST,
+    payload: { email, password }
   };
 }
 
-export function exampleActionSuccess(someData) {
+export function signInSuccess(token, user) {
+  console.log('SUCCESS', token, user);
   return {
-    type: EXAMPLE_TYPE_SUCCESS,
-    exampleData: someData
+    type: types.SIGN_IN_SUCCESS,
+    payload: { token, user }
+  };
+}
+
+export function signFailure() {
+  console.log('Failure');
+  return {
+    type: types.SIGN_FAILURE
   };
 }

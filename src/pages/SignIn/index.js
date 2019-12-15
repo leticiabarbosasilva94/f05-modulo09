@@ -1,11 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import isEmail from 'validator/lib/isEmail';
+import { useDispatch } from 'react-redux';
 import ErrorMessage from '../../components/ErrorMessage';
+import { signInRequest } from '../../store/modules/auth/actions';
 
 import logo from '../../assets/images/logo.svg';
 
 export default function SignIn() {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [errors, setErrors] = React.useState({});
@@ -23,6 +27,10 @@ export default function SignIn() {
     }
 
     setErrors(formErrors);
+
+    if (Object.keys(formErrors).length > 0) return;
+
+    dispatch(signInRequest(email, password));
   };
 
   return (

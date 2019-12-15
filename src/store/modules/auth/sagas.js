@@ -1,18 +1,27 @@
-import { call, put, takeLatest, all } from 'redux-saga/effects';
-import { exampleActionSuccess } from './actions';
-import { EXAMPLE_TYPE_REQUEST } from '../types';
+import { takeLatest, call, put, all } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
+import * as types from '../types';
+import axios from '../../../services/axios';
+import * as actions from './actions';
+import history from '../../../services/history';
 
-function youDontNeedMe(msg = 'Hello') {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(msg);
-    }, 3000);
+export function* signIn({ payload }) {
+  const { email, password } = payload;
+
+  const response = yield call(axios.post, 'sessions', {
+    email,
+    password
   });
+
+  const { token, user } = response.data;
+
+  if (!user.provider) {
+    toast.error('Usuário não é provedor.');
+    return;
+  }
+
+  yield put(actions.signInSuccess(token, user));
+  history.push('/dashboard');
 }
 
-function* exampleSagaRequest({ exampleData }) {
-  const response = yield call(youDontNeedMe, exampleData);
-  yield put(exampleActionSuccess(response));
-}
-
-export default all([takeLatest(EXAMPLE_TYPE_REQUEST, exampleSagaRequest)]);
+export default all([takeLatest(types.SIGN_IN_REQUEST, signIn)]);
