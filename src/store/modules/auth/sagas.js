@@ -6,22 +6,27 @@ import * as actions from './actions';
 import history from '../../../services/history';
 
 export function* signIn({ payload }) {
-  const { email, password } = payload;
+  try {
+    const { email, password } = payload;
 
-  const response = yield call(axios.post, 'sessions', {
-    email,
-    password
-  });
+    const response = yield call(axios.post, 'sessions', {
+      email,
+      password
+    });
 
-  const { token, user } = response.data;
+    const { token, user } = response.data;
 
-  if (!user.provider) {
-    toast.error('Usuário não é provedor.');
-    return;
+    if (!user.provider) {
+      toast.error('Usuário não é provedor.');
+      return;
+    }
+
+    yield put(actions.signInSuccess(token, user));
+    history.push('/dashboard');
+  } catch (e) {
+    const { status } = e.response;
+    yield put(actions.signFailure(e));
   }
-
-  yield put(actions.signInSuccess(token, user));
-  history.push('/dashboard');
 }
 
 export default all([takeLatest(types.SIGN_IN_REQUEST, signIn)]);
