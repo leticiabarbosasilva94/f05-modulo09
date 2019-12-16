@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import isEmail from 'validator/lib/isEmail';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from '../../components/ErrorMessage';
 import { signInRequest } from '../../store/modules/auth/actions';
 
@@ -9,6 +9,7 @@ import logo from '../../assets/images/logo.svg';
 
 export default function SignIn() {
   const dispatch = useDispatch();
+  const loading = useSelector(state => state.auth.loading);
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -54,7 +55,7 @@ export default function SignIn() {
         />
         <ErrorMessage message={errors.password} />
 
-        <button type="submit">acessar</button>
+        <button type="submit">{loading ? 'Carregando...' : 'Acessar'}</button>
         <Link to="/register">Criar conta gratuita</Link>
       </form>
     </>
