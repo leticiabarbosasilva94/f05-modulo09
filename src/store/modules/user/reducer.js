@@ -11,10 +11,6 @@ export default function exampleReducer(state = initialState, action) {
       newState.profile = action.payload.user;
       return newState;
     }
-    case types.SIGN_IN_REQUEST:
-      return state;
-    case types.SIGN_FAILURE:
-      return state;
     default:
       return state;
   }

@@ -21,11 +21,13 @@ export function* signIn({ payload }) {
       return;
     }
 
+    axios.defaults.headers.Authorization = `Bearer ${token}`;
+
     yield put(actions.signInSuccess(token, user));
     history.push('/dashboard');
   } catch (e) {
-    const { status } = e.response;
-    yield put(actions.signFailure(e));
+    toast.error('Usuário ou senha inválidos');
+    yield put(actions.signFailure());
   }
 }
 

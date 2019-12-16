@@ -14,10 +14,10 @@ export default function exampleReducer(state = initialState, action) {
       newState.signed = true;
       return newState;
     }
-    case types.SIGN_IN_REQUEST:
-      return state;
-    case types.SIGN_FAILURE:
-      return state;
+    case types.SIGN_FAILURE: {
+      const newState = { ...initialState };
+      return newState;
+    }
     default:
       return state;
   }
