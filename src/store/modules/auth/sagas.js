@@ -58,7 +58,16 @@ function* signUp({ payload }) {
   }
 }
 
+function setToken({ payload }) {
+  const token = _get(payload, 'auth.token', null);
+
+  if (!token) return;
+
+  axios.defaults.headers.Authorization = `Bearer ${token}`;
+}
+
 export default all([
+  takeLatest(types.PERSIST_REHYDRATE, setToken),
   takeLatest(types.SIGN_IN_REQUEST, signIn),
   takeLatest(types.SIGN_UP_REQUEST, signUp)
 ]);
