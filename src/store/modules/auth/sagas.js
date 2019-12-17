@@ -1,5 +1,6 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
+import { get as _get } from 'lodash';
 import * as types from '../types';
 import axios from '../../../services/axios';
 import * as actions from './actions';
@@ -31,4 +32,33 @@ export function* signIn({ payload }) {
   }
 }
 
-export default all([takeLatest(types.SIGN_IN_REQUEST, signIn)]);
+function* signUp({ payload }) {
+  try {
+    const { name, email, password, confirmPassword } = payload;
+
+    yield call(axios.post, 'users', {
+      name,
+      email,
+      password,
+      confirmPassword,
+      provider: true
+    });
+
+    toast.success('Usuário criado com sucesso.');
+    history.push('/');
+  } catch (e) {
+    const errorMessage = _get(
+      e,
+      'response.data.errors[0]',
+      'Erro desconhecido'
+    );
+
+    toast.error(errorMessage);
+    yield put(actions.signFailure());
+  }
+}
+
+export default all([
+  takeLatest(types.SIGN_IN_REQUEST, signIn),
+  takeLatest(types.SIGN_UP_REQUEST, signUp)
+]);
