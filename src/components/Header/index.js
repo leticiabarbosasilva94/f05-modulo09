@@ -1,13 +1,31 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Nav } from './styled';
+import { Container, Content, Profile } from './styled';
+import purple_logo from '../../assets/images/purple_logo.svg';
 
 export default function Header() {
   return (
-    <Nav error={1}>
-      <Link to="/">Home</Link>
-      <Link to="/page404">Page404</Link>
-    </Nav>
+    <Container>
+      <Content>
+        <nav>
+          <img src={purple_logo} alt="GoBarber" />
+          <Link to="/dashboard">DASHBOARD</Link>
+        </nav>
+
+        <aside>
+          <Profile>
+            <div>
+              <strong>Luiza</strong>
+              <Link to="/profile">Meu Perfil</Link>
+            </div>
+            <img
+              src="https://api.adorable.io/avatars/285/abott@adorable.png"
+              alt="Avatar"
+            />
+          </Profile>
+        </aside>
+      </Content>
+    </Container>
   );
 }
